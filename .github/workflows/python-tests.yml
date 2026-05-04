@@ -24,18 +24,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Instalar Firefox
+    - name: Instalar geckodriver (si no existe)
       run: |
-        sudo apt-get update
-        sudo apt-get install -y firefox
-
-    - name: Instalar geckodriver
-      run: |
-        GECKO_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep '"tag_name"' | cut -d'"' -f4)
-        wget -q "https://github.com/mozilla/geckodriver/releases/download/${GECKO_VERSION}/geckodriver-${GECKO_VERSION}-linux64.tar.gz" -O /tmp/geckodriver.tar.gz
-        tar -xzf /tmp/geckodriver.tar.gz -C /tmp
-        sudo mv /tmp/geckodriver /usr/local/bin/
-        sudo chmod +x /usr/local/bin/geckodriver
+        if ! command -v geckodriver &>/dev/null; then
+          GECKO_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep '"tag_name"' | cut -d'"' -f4)
+          wget -q "https://github.com/mozilla/geckodriver/releases/download/${GECKO_VERSION}/geckodriver-${GECKO_VERSION}-linux64.tar.gz" -O /tmp/geckodriver.tar.gz
+          tar -xzf /tmp/geckodriver.tar.gz -C /tmp
+          sudo mv /tmp/geckodriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/geckodriver
+        fi
         geckodriver --version | head -2
 
     - name: Ejecutar pruebas
