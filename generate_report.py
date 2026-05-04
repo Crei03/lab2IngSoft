@@ -138,7 +138,7 @@ def generate_report():
         "Flujo del pipeline:\n"
         "1. Trigger: Se activa en cada push o Pull Request a la rama main\n"
         "2. Entorno: ubuntu-latest (servidor Linux sin interfaz gráfica)\n"
-        "3. Instalación: Firefox + geckodriver + dependencias Python\n"
+         "3. Instalación: Firefox vía apt-get, geckodriver descargado desde GitHub Releases, dependencias Python con pip\n"
         "4. Ejecución: Las pruebas corren en modo headless (HEADLESS=true)\n"
         "5. Artefacto: El reporte HTML se guarda como artifact descargable\n\n"
         "Para usarlo, solo se debe subir la carpeta lab2/ a un repositorio de GitHub. "

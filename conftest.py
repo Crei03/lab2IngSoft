@@ -35,7 +35,10 @@ def driver():
         opts.add_argument("--headless")
     if os.path.exists("/usr/bin/firefox"):
         opts.binary_location = "/usr/bin/firefox"
-    geckodriver_path = os.environ.get("GECKODRIVER_PATH", "/home/crei03/.local/bin/geckodriver")
+    geckodriver_path = os.environ.get("GECKODRIVER_PATH", "")
+    if not geckodriver_path or not os.path.exists(geckodriver_path):
+        import shutil
+        geckodriver_path = shutil.which("geckodriver") or "/home/crei03/.local/bin/geckodriver"
     service = Service(geckodriver_path)
     driver = webdriver.Firefox(service=service, options=opts)
     driver.maximize_window()
